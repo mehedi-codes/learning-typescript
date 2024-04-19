@@ -1,71 +1,71 @@
 "use strict";
-let stringArr = ['one', 'hey', 'mehedi'];
-let guitars = ['Strat', 'Les Paul', 5150];
-let mixedData = ['EVH', 1984, true];
-stringArr[0] = "jhon";
-stringArr.push("hey");
-guitars[0] = 1984;
-guitars.unshift("Jim");
-guitars = stringArr;
-mixedData = guitars;
-let test = [];
-let bands = [];
-bands.push("Van Halen");
-// Tuple
-let myTuple = ["one", 1, true];
-let mixed = ['john', 1, true];
-mixed = myTuple;
-// myTuple = mixed
-myTuple[1] = 42;
-// Objects
-let myObj;
-myObj = [];
-console.log(typeof myObj); // object
-myObj = bands;
-myObj = {};
-const exampleObj = {
-    prop1: 'Dave',
-    prop2: true,
+//! Literal types
+let myName;
+// myName = 'Hasan' -> Error
+let userName;
+userName = "Mehedi";
+userName = "Hasan";
+// userName = 'Moon' -> Error
+//! Function Type
+const add = (a, b) => {
+    return a + b;
 };
-exampleObj.prop1 = 'John';
-exampleObj.prop2 = true;
-let evh = {
-    name: "Eddie",
-    active: true,
-    albums: [1984, 5150, "OU812"]
+const logMessage = (message) => {
+    console.log(message);
 };
-let jp = {
-    name: "Jimmy",
-    active: false,
-    albums: [1976, 5150, "OU812"]
+// logMessage("Hello, World!");
+// logMessage(100);
+// logMessage(add(2, 3));
+// logMessage(add('m', 2)); -> Error
+let subtract = function (c, d) {
+    return c - d;
 };
-evh = jp;
-const greetGuitarist = (guitarist) => {
-    return `Hello ${guitarist.name}!`;
+// works same as mathFunction type but the declaration is different
+// interface mathFunction {(a: number, b: number): number}
+let multiply = function (c, d) {
+    return c * d;
 };
-console.log(greetGuitarist(evh)); // Hello Jimmy!
-let jp2 = {
-    active: false,
-    albums: [1976, 5150, "OU812"]
-};
-const greetGuitarist2 = (guitarist) => {
-    var _a;
-    if (guitarist.name) {
-        return `Hello ${(_a = guitarist.name) === null || _a === void 0 ? void 0 : _a.toUpperCase}!`;
+// logMessage(multiply(3, 3));
+//! optional parameters
+const addAll = (a, b, c) => {
+    if (typeof c !== "undefined") {
+        return a + b + c;
     }
-    return `Hello!`;
+    return a + b;
 };
-console.log(greetGuitarist2(jp2));
-// Enums
-// Unlike most typescript features, Enums are not a type-level addition to Javascript but something added to the language and runtime.
-var Grade;
-(function (Grade) {
-    Grade[Grade["U"] = 2] = "U";
-    Grade[Grade["D"] = 3] = "D";
-    Grade[Grade["C"] = 4] = "C";
-    Grade[Grade["B"] = 5] = "B";
-    Grade[Grade["A"] = 6] = "A";
-})(Grade || (Grade = {}));
-console.log(Grade.U); //2
-console.log(Grade.D); //3
-console.log(Grade.A); //6
+//! default parameters
+const someAll = (a = 10, b, c = 2) => {
+    return a + b + c;
+};
+// logMessage(addAll(2, 3, 4));
+// logMessage(addAll(4, 6));
+// logMessage(someAll(undefined, 3));
+//! Rest Parameters
+const total = (a, ...nums) => {
+    return a + nums.reduce((prev, curr) => prev + curr);
+};
+// logMessage(total(10,2,3,4))
+//! never type
+const createError = (errMsg) => {
+    throw new Error(errMsg);
+};
+const infinite = () => {
+    let i = 1;
+    while (true) {
+        i++;
+        if (i > 100)
+            break;
+    }
+};
+//! custom type guard
+const isNumber = (value) => {
+    return typeof value === "number" ? true : false;
+};
+//! use of the never type
+const numberOrString = (value) => {
+    if (typeof value === "string")
+        return "string";
+    if (typeof value === "number")
+        return "number";
+    return createError("This should never happen!");
+};
