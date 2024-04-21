@@ -13,10 +13,11 @@ const addOrConcat = (a, b, c) => {
 let myVal = addOrConcat(2, 2, "concat");
 // Be Careful! TS sees no problen - but a string is returned
 let nextVal = addOrConcat(2, 2, "concat");
-// 10 as string
+//! 10 as string
 10;
 // The DOM
-const img = document.getElementById("myId");
-const element = document.getElementById("#myId");
-const myCanvas = document.getElementById("myCanvas");
-const ctx = myCanvas.getContext("2d");
+const img = document.querySelector("img");
+const myImg = document.getElementById("#img");
+const nextImg = document.getElementById("#img");
+img.src;
+myImg.src;

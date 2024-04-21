@@ -24,14 +24,13 @@ let myVal: string = addOrConcat(2, 2, "concat") as string;
 // Be Careful! TS sees no problen - but a string is returned
 let nextVal: number = addOrConcat(2, 2, "concat") as number;
 
-// 10 as string
+//! 10 as string
 (10 as unknown) as string
 
 // The DOM
-const img = document.getElementById("myId");
+const img = document.querySelector("img")!
+const myImg = document.getElementById("#img") as HTMLImageElement;
+const nextImg = <HTMLImageElement>document.getElementById("#img")
 
-const element = document.getElementById("#myId");
-
-const myCanvas = <HTMLCanvasElement>document.getElementById("myCanvas");
-
-const ctx = myCanvas.getContext("2d");
+img.src
+myImg.src
