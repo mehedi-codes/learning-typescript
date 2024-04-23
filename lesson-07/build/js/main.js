@@ -1,44 +1,51 @@
 "use strict";
-//---------------------Type Generics---------------------------------
-// Type generics allow you to write code that can work with different data // types while maintaining type safety and reusability.
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+// Index Signatures
+// interface TransactionObj {
+//   readonly [index: string]: number // index cannot be boolean type
+// }
+//! Example 1
+const todaysTransactions = {
+    Pizza: -10,
+    Books: -5,
+    Job: 50,
+    // Mehedi: 23
 };
-//! Basic Example and Syntax
-// const stringEcho = (arg: string): string => arg
-const echo = (arg) => arg;
-//! isObject Example
-const isObj = (arg) => {
-    return typeof arg === "object" && !Array.isArray(arg) && arg !== null;
-};
-const checkBoolvalue = (value) => {
-    if (Array.isArray(value) && !value.length) {
-        return { value, is: false };
+console.log(todaysTransactions.Pizza);
+console.log(todaysTransactions["Pizza"]);
+let prop = "Pizza";
+console.log(todaysTransactions[prop]);
+//! Example2
+const todayNet = (transactions) => {
+    let total = 0;
+    for (const transaction in transactions) {
+        total += transactions[transaction];
     }
-    if (isObj(value) && !Object.keys(value).length) {
-        return { value, is: false };
-    }
-    return { value, is: !!value };
+    return total;
 };
-const processUser = (user) => {
-    // process the user with logic here
-    return user;
+console.log(todayNet(todaysTransactions));
+// todaysTransactions.Pizza = 40
+console.log(todaysTransactions["Dave"]);
+const student = {
+    name: "Mehedi",
+    GPA: 3.94,
+    classes: [100, 200],
 };
-console.log(processUser({ id: 1, name: "Shorna" }));
-// console.log((processUser({name: 'Shorna'})));
-const getUsersProperty = (users, key) => {
-    return users.map((user) => user[key]);
-};
-let array;
-const fetchData = () => __awaiter(void 0, void 0, void 0, function* () {
-    const res = yield fetch("https://jsonplaceholder.typicode.com/users");
-    const data = yield res.json();
-    console.log(getUsersProperty(data, "id"));
+// console.log(student.test);
+for (const key in student) {
+    console.log(`${key}: ${student[key]}`);
+}
+Object.keys(student).map((key) => {
+    console.log(student[key]);
 });
-fetchData();
+const logStudentKey = (student, key) => {
+    console.log(`${key}: ${student[key]}`);
+};
+logStudentKey(student, "name");
+const monthlyIncomes = {
+    salary: 500,
+    bonus: 100,
+    sidehusle: 250,
+};
+for (const revenue in monthlyIncomes) {
+    console.log(monthlyIncomes[revenue]);
+}

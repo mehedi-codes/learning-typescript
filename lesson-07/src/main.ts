@@ -1,88 +1,93 @@
-//---------------------Type Generics---------------------------------
-// Type generics allow you to write code that can work with different data // types while maintaining type safety and reusability.
+// Index Signatures
 
-//! Basic Example and Syntax
-// const stringEcho = (arg: string): string => arg
-const echo = <T>(arg: T): T => arg;
-
-//! isObject Example
-const isObj = <T>(arg: T): boolean => {
-  return typeof arg === "object" && !Array.isArray(arg) && arg !== null;
-};
-
-// console.log(isObj(true)); // false
-// console.log(isObj('Mehedi')); // false
-// console.log(isObj([1,2,3])); // false
-// console.log(isObj({name: 'Mehedi'})); // true
-// console.log(isObj(null)); // false
-
-//! isTrue with keyof Assertion
-// const isTrue = <T>(arg: T): { arg: T; is: boolean } => {
-//   if (Array.isArray(arg) && !arg.length) {
-//     return { arg, is: false };
-//   }
-//   if (isObj(arg) && !Object.keys(arg as keyof T).length) {
-//     return { arg, is: false };
-//   }
-//   return { arg, is: !!arg };
-// };
-
-// console.log(isTrue(false));
-// console.log(isTrue(0));
-// console.log(isTrue(true));
-// console.log(isTrue(1));
-// console.log(isTrue('Shanta'));
-// console.log(isTrue(''));
-// console.log(isTrue(null));
-// console.log(isTrue(undefined));
-// console.log(isTrue({}));
-// console.log(isTrue({name: 'Shorna'}));
-// console.log(isTrue([]));
-// console.log(isTrue([1,2,3]));
-// console.log(isTrue(NaN));
-// console.log(isTrue(-0));
-
-// interface with Generic example
-interface BoolCheck<T> {
-  value: T;
-  is: boolean;
+interface TransactionObj {
+  readonly [index: string]: number;
+  Pizza: number;
+  Books: number;
+  Job: number;
 }
 
-const checkBoolvalue = <T>(value: T): BoolCheck<T> => {
-  if (Array.isArray(value) && !value.length) {
-    return { value, is: false };
-  }
-  if (isObj(value) && !Object.keys(value as keyof T).length) {
-    return { value, is: false };
-  }
-  return { value, is: !!value };
+// interface TransactionObj {
+//   readonly [index: string]: number // index cannot be boolean type
+// }
+
+//! Example 1
+const todaysTransactions: TransactionObj = {
+  Pizza: -10,
+  Books: -5,
+  Job: 50,
+  // Mehedi: 23
 };
 
-//! Narrowing Generics with Extends
-interface HasID {
-  id: number;
+console.log(todaysTransactions.Pizza);
+console.log(todaysTransactions["Pizza"]);
+
+let prop: string = "Pizza";
+console.log(todaysTransactions[prop]);
+
+//! Example2
+
+const todayNet = (transactions: TransactionObj): number => {
+  let total = 0;
+  for (const transaction in transactions) {
+    total += transactions[transaction];
+  }
+  return total;
+};
+
+console.log(todayNet(todaysTransactions));
+
+// todaysTransactions.Pizza = 40
+
+console.log(todaysTransactions["Dave"]);
+
+///////////////////////////////////////////////
+
+interface Student {
+  // [key: string]: string | number | number[] | undefined;
+  name: string;
+  GPA: number;
+  classes?: number[];
 }
 
-const processUser = <T extends HasID>(user: T): T => {
-  // process the user with logic here
-  return user;
+const student: Student = {
+  name: "Mehedi",
+  GPA: 3.94,
+  classes: [100, 200],
 };
 
-console.log(processUser({ id: 1, name: "Shorna" }));
-// console.log((processUser({name: 'Shorna'})));
+// console.log(student.test);
 
-const getUsersProperty = <T extends HasID, K extends keyof T>(
-  users: T[],
-  key: K
-): T[K][] => {
-  return users.map((user) => user[key]);
+for (const key in student) {
+  console.log(`${key}: ${student[key as keyof Student]}`);
+}
+
+Object.keys(student).map((key) => {
+  console.log(student[key as keyof typeof student]);
+});
+
+const logStudentKey = (student: Student, key: keyof Student): void => {
+  console.log(`${key}: ${student[key]}`);
 };
 
-let array;
+logStudentKey(student, "name");
 
-const fetchData = async () => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/users");
-  const data = await res.json();
-  console.log(getUsersProperty(data, "id"));
+//////////////////////////////////////////////
+
+// interface Incomes {
+//   [key: string]: number;
+// }
+
+type Streams = "salary" | "bonus" | "sidehusle";
+
+type Incomes = Record<Streams, number | string>;
+
+const monthlyIncomes: Incomes = {
+  salary: 500,
+  bonus: 100,
+  sidehusle: 250,
 };
-fetchData();
+
+for (const revenue in monthlyIncomes) {
+  console.log(monthlyIncomes[revenue as keyof Incomes]);
+}
